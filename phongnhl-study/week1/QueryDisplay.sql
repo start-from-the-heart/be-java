@@ -29,5 +29,6 @@ FROM client_products p
 WHERE p.product_name LIKE '%áo%' -- Từ khóa tìm kiếm
 AND (p.category_id = 'CAT002' OR 'CAT002' = ''); -- Category ID (để trống nếu không lọc)
 
+ -- Bài 1: Tạo stored procedure đăng ký người dùng mới
  
 

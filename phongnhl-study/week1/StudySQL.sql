@@ -27,6 +27,7 @@ CREATE TABLE client_user_account(
     email varchar(255) unique,
     role_id int,
     status varchar(2),
+    delete_flg boolean,
     created_at timestamp,
     created_by varchar(10),
     updated_at timestamp,
@@ -42,6 +43,7 @@ CREATE TABLE client_user_account_info(
     avatar_url varchar(255),
     gender enum('male', 'female', 'other'),
     dob datetime,
+    delete_flg boolean,
     created_at timestamp,
     created_by varchar(10),
     updated_at timestamp,
@@ -104,6 +106,7 @@ CREATE TABLE client_products(
     summary varchar(255),
     cover varchar(255),
     category_id varchar(10),
+    delete_flg boolean,
 	created_at timestamp,
     created_by varchar(10),
     updated_at timestamp,
@@ -124,6 +127,7 @@ CREATE TABLE client_products_skus (
     sku VARCHAR(30),
     price BIGINT,
     quantity INT,
+    delete_flg boolean,
     created_at TIMESTAMP,
     created_by VARCHAR(10),
     updated_at TIMESTAMP,
@@ -135,6 +139,7 @@ CREATE TABLE client_products_attributes (
     id INT auto_increment PRIMARY KEY,
     type VARCHAR(255),         -- ví dụ: 'size', 'color'
     value VARCHAR(255),        -- ví dụ: 'M', 'Red'
+    delete_flg boolean,
     created_at TIMESTAMP,
     created_by VARCHAR(10),
     updated_at TIMESTAMP,
@@ -153,6 +158,7 @@ CREATE TABLE client_wishlist(
 	id int4 auto_increment primary key,
     product_id varchar(10),
     user_account_id varchar(10),
+    delete_flg boolean,
     created_at timestamp,
     created_by varchar(10),
     updated_at timestamp,
@@ -165,6 +171,7 @@ CREATE TABLE client_cart(
 	id int4 auto_increment primary key,
     user_account_id varchar(10),
     total int,
+    delete_flg boolean,
     created_at timestamp,
     created_by varchar(10),
     updated_at timestamp,
@@ -178,6 +185,7 @@ CREATE TABLE client_cart_item(
     product_id varchar(10), 
     product_sku_id int4,
     quantity int,
+    delete_flg boolean,
 	created_at timestamp,
     created_by varchar(10),
     updated_at timestamp,
@@ -192,6 +200,7 @@ CREATE TABLE client_order_details(
     user_account_id varchar(10),
     total int,
     status varchar(2),
+    delete_flg boolean,
     created_at timestamp,
     created_by varchar(10),
     updated_at timestamp,
@@ -205,6 +214,7 @@ CREATE TABLE client_order_item(
     product_id varchar(10),
     product_sku_id int4,
     quantity int,
+    delete_flg boolean,
     created_at timestamp,
     created_by varchar(10),
     updated_at timestamp,
@@ -217,6 +227,7 @@ CREATE TABLE client_order_item(
 CREATE TABLE master_payment_status(
 	code varchar(2) primary key,
     description varchar(255),
+    delete_flg boolean,
     created_at timestamp,
     created_by varchar(10),
     updated_at timestamp,
@@ -229,6 +240,7 @@ CREATE TABLE client_payment_details(
     amount bigint,
     provider varchar(100),
     status varchar(2),
+    delete_flg boolean,
     created_at timestamp,
     created_by varchar(10),
     updated_at timestamp,
@@ -275,3 +287,4 @@ BEGIN
 END$$
 
 DELIMITER ;
+
