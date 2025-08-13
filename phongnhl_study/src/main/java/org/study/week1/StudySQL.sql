@@ -17,19 +17,22 @@ Create table master_sequence(
     current_value INT NOT NULL
 );
 
+-- Thêm dữ liệu vào bảng master_sequence
+INSERT INTO master_sequence (name, current_value) VALUES ('user_account_id', 0) ON DUPLICATE KEY UPDATE name = name;;
 
--- thong tin tai khoan 
+
+-- thong tin tai khoan
 CREATE TABLE client_user_account(
 	id varchar(10) primary key,
-    username varchar(255),
+    username varchar(255) NOT NULL,
     password char(60) not null,
     email varchar(255) unique,
     role_id int,
     status varchar(2),
-    delete_flg boolean,
-    created_at timestamp,
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
-    updated_at timestamp,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by varchar(10),
 	constraint FK_UserAccountRole foreign key (role_id) references master_role(id)
 );
@@ -42,17 +45,13 @@ CREATE TABLE client_user_account_info(
     avatar_url varchar(255),
     gender enum('male', 'female', 'other'),
     dob datetime,
-    delete_flg boolean,
-    created_at timestamp,
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
-    updated_at timestamp,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by varchar(10),
     constraint FK_UserAccountInfoUserAccount FOREIGN KEY (user_account_id) references client_user_account(id)
 );
-
-ALTER TABLE client_user_account_info 
-add constraint FK_UserAccountInfoUserAccount 
-FOREIGN KEY (user_account_id) references client_user_account(id);
 
 CREATE TABLE client_address(
 	id int auto_increment primary key,
@@ -65,10 +64,10 @@ CREATE TABLE client_address(
     postal_code varchar(255),
     landmark varchar(255),
     phone_number varchar(255),
-    delete_flg boolean,
-    created_at timestamp,
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
-    updated_at timestamp,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by varchar(10),
     constraint FK_AddressUserAccount FOREIGN KEY (user_account_id) references client_user_account(id)
 );
@@ -78,11 +77,11 @@ CREATE TABLE client_categories(
 	id varchar(10) primary key,
     category_name varchar(255),
     description varchar(255),
-    delete_flg boolean,
-    created_at timestamp,
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
-    updated_at timestamp,
-    updated_by varchar(10)
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by varchar(10),
 );
 
 CREATE TABLE client_sub_categories(
@@ -90,10 +89,10 @@ CREATE TABLE client_sub_categories(
     category_id varchar(10),
     sub_category_name varchar(255),
     description varchar(255),
-    delete_flg boolean,
-    created_at timestamp,
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
-    updated_at timestamp,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by varchar(10),
     constraint FK_SubCategoryCategory foreign key (category_id) references client_categories(id)
 );
@@ -105,11 +104,12 @@ CREATE TABLE client_products(
     summary varchar(255),
     cover varchar(255),
     category_id varchar(10),
-    delete_flg boolean,
-	created_at timestamp,
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
-    updated_at timestamp,
-    updated_by varchar(10)
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by varchar(10),
+    CONSTRAINT FK_ProductCategory FOREIGN KEY (category_id) REFERENCES client_categories(id)
 );
 
 CREATE TABLE client_sub_category_product(
@@ -126,23 +126,24 @@ CREATE TABLE client_products_skus (
     sku VARCHAR(30),
     price DECIMAL(18,2),
     quantity INT,
-    delete_flg boolean,
-    created_at TIMESTAMP,
-    created_by VARCHAR(10),
-    updated_at TIMESTAMP,
-    updated_by VARCHAR(10),
-    CONSTRAINT FK_ProductProductSkus FOREIGN KEY(product_id) REFERENCES client_products(id)
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by varchar(10),
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by varchar(10),
+    CONSTRAINT FK_ProductProductSkus FOREIGN KEY(product_id) REFERENCES client_products(id),
+    CONSTRAINT UQ_product_sku UNIQUE (product_id, sku)
 );
 
 CREATE TABLE client_products_attributes (
     id INT auto_increment PRIMARY KEY,
     type VARCHAR(255),         -- ví dụ: 'size', 'color'
     value VARCHAR(255),        -- ví dụ: 'M', 'Red'
-    delete_flg boolean,
-    created_at TIMESTAMP,
-    created_by VARCHAR(10),
-    updated_at TIMESTAMP,
-    updated_by VARCHAR(10)
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by varchar(10),
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by varchar(10),
 );
 
 CREATE TABLE client_sku_attributes (
@@ -157,10 +158,10 @@ CREATE TABLE client_wishlist(
 	id int4 auto_increment primary key,
     product_id varchar(10),
     user_account_id varchar(10),
-    delete_flg boolean,
-    created_at timestamp,
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
-    updated_at timestamp,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by varchar(10),
     CONSTRAINT FK_WishlistProduct foreign key (product_id) references client_products(id),
     CONSTRAINT FK_WishlistUserAccount foreign key (user_account_id) references client_user_account(id)
@@ -170,10 +171,10 @@ CREATE TABLE client_cart(
 	id int4 auto_increment primary key,
     user_account_id varchar(10),
     total int,
-    delete_flg boolean,
-    created_at timestamp,
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
-    updated_at timestamp,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by varchar(10),
     CONSTRAINT FK_CartUserAccount foreign key (user_account_id) references client_user_account(id)
 );
@@ -184,10 +185,10 @@ CREATE TABLE client_cart_item(
     product_id varchar(10), 
     product_sku_id int4,
     quantity int,
-    delete_flg boolean,
-	created_at timestamp,
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
-    updated_at timestamp,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by varchar(10),
     CONSTRAINT FK_CartItemCart foreign key (cart_id) references client_cart(id),
     CONSTRAINT FK_CartItemProduct foreign key (product_id) references client_products(id),
@@ -199,10 +200,10 @@ CREATE TABLE client_order_details(
     user_account_id varchar(10),
     total int,
     status varchar(2),
-    delete_flg boolean,
-    created_at timestamp,
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
-    updated_at timestamp,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by varchar(10),
     CONSTRAINT FK_OrderDetailUserAccount foreign key (user_account_id) references client_user_account(id)
 );
@@ -213,10 +214,10 @@ CREATE TABLE client_order_item(
     product_id varchar(10),
     product_sku_id int4,
     quantity int,
-    delete_flg boolean,
-    created_at timestamp,
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
-    updated_at timestamp,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by varchar(10),
     CONSTRAINT FK_OrderItemOrderDetail foreign key (order_id) references client_order_details(id),
     CONSTRAINT FK_OrderItemProduct foreign key (product_id) references client_products(id),
@@ -226,10 +227,10 @@ CREATE TABLE client_order_item(
 CREATE TABLE master_payment_status(
 	code varchar(2) primary key,
     description varchar(255),
-    delete_flg boolean,
-    created_at timestamp,
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
-    updated_at timestamp,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by varchar(10)
 );
 
@@ -239,10 +240,10 @@ CREATE TABLE client_payment_details(
     amount bigint,
     provider varchar(100),
     status varchar(2),
-    delete_flg boolean,
-    created_at timestamp,
+    delete_flg boolean NOT NULL DEFAULT 0,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
-    updated_at timestamp,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by varchar(10),
     CONSTRAINT FK_PaymentDetailOrderDetail foreign key (order_id) references client_order_details(id),
     CONSTRAINT FK_PaymentDetailPaymentStatus foreign key (status) references master_payment_status(code)
@@ -268,6 +269,7 @@ CREATE TRIGGER before_insert_client_user_account
 BEFORE INSERT ON client_user_account
 FOR EACH ROW
 BEGIN
+    DECLARE next_number INT;
     SELECT current_value
     INTO next_number
     FROM master_sequence

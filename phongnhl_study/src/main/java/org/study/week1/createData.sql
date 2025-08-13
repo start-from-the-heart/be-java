@@ -5,9 +5,6 @@ INSERT INTO master_role (role_type, description, created_at, created_by) VALUES
 ('VIP', 'Người dùng VIP', NOW(), 'system'),
 ('MOD', 'Người kiểm duyệt', NOW(), 'system');
 
--- Thêm dữ liệu vào bảng master_sequence
-INSERT INTO master_sequence (name, current_value) VALUES ('user_account_id', 0) ON DUPLICATE KEY UPDATE name = name;;
-
 -- Thêm dữ liệu vào bảng client_user_account (10 bản ghi)
 INSERT INTO client_user_account (username, password, email, role_id, status, created_at, created_by) VALUES
 ('user1', '$2a$10$xJwL5v5Jz5Z5Z5Z5Z5Z5Zu', 'user1@example.com', 2, 'A', NOW(), 'system'),
@@ -342,9 +339,9 @@ INSERT INTO client_cart_item (cart_id, product_id, product_sku_id, quantity, cre
 (6, 'PROD022', 34, 2, NOW(), 'system'),
 (7, 'PROD007', 14, 1, NOW(), 'system'),
 (8, 'PROD009', 17, 1, NOW(), 'system'),
-(9, 'PROD015', 28, 1, NOW(), 'system'), -- PROD015 → SKU id 26
-(10, 'PROD020', 33, 1, NOW(), 'system'), -- PROD020 → SKU id 31
-(10, 'PROD021', 34, 1, NOW(), 'system'); -- PROD021 → SKU id 32
+(9, 'PROD015', 26, 1, NOW(), 'system'), -- PROD015 → SKU id 26
+(10, 'PROD020', 31, 1, NOW(), 'system'), -- PROD020 → SKU id 31
+(10, 'PROD021', 32, 1, NOW(), 'system'); -- PROD021 → SKU id 32
 
 -- Cập nhật tổng tiền cho giỏ hàng
 UPDATE client_cart c
