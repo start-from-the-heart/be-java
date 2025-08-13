@@ -4,11 +4,17 @@ import java.time.LocalDateTime;
 
 
 public abstract class UserCommon {
-  public boolean deleteFlg = false;
-  public String createBy;
-  public LocalDateTime createAt = LocalDateTime.now();
-  public String updateBy;
-  public LocalDateTime updateAt = LocalDateTime.now();
+
+  private boolean deleted = false;
+
+  private String createdBy;
+
+  private LocalDateTime createdAt;
+
+  private String updatedBy;
+
+  private LocalDateTime updatedAt;
+
 
   public boolean isDeleteFlg() {
     return deleteFlg;

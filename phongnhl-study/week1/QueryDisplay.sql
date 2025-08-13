@@ -26,8 +26,8 @@ GROUP BY p.id, p.product_name, cpa.type, cpa.value;
 -- 4. Tìm kiếm sản phẩm theo tên và category
 SELECT p.*
 FROM client_products p
-WHERE p.product_name LIKE '%áo%' -- Từ khóa tìm kiếm
-AND (p.category_id = 'CAT002' OR 'CAT002' = ''); -- Category ID (để trống nếu không lọc)
+WHERE p.product_name LIKE '%áo%'
+AND (@category_id IS NULL OR @category_id = '' OR p.category_id = @category_id); -- Category ID (để trống nếu không lọc)
 
  -- Bài 1: Tạo stored procedure đăng ký người dùng mới
  

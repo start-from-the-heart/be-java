@@ -1,31 +1,31 @@
 -- Tạo view hiển thị doanh thu theo ngày/tuần/tháng
 
--- CREATE VIEW vw_daily_revenue AS
--- select 
--- 	DATE(od.created_at) AS sale_date,
---     SUM(od.total) AS total_revenue,
---     COUNT(od.id) AS order_count
--- from client_order_details AS od
--- where od.status IN ('PA', 'PR')
--- GROUP BY sale_date;
+CREATE VIEW vw_daily_revenue AS
+select
+	DATE(od.created_at) AS sale_date,
+    SUM(od.total) AS total_revenue,
+    COUNT(od.id) AS order_count
+from client_order_details AS od
+where od.status IN ('PA', 'PR')
+GROUP BY sale_date;
 
--- SELECT * FROM vw_daily_revenue; 
+SELECT * FROM vw_daily_revenue;
 
 -- Tạo view hiển thị top 5 sản phẩm bán chạy nhất
 
--- CREATE VIEW top_5_product AS
--- select p.id, p.product_name, count(oi.product_id) AS sale_count , sum(oi.quantity) AS total_quantity
--- from client_order_item AS oi
--- inner join client_products AS p ON  oi.product_id = p.id
--- group by p.id, p.product_name
--- order by sale_count DESC
--- limit 5;
+CREATE VIEW top_5_product AS
+select p.id, p.product_name, count(oi.product_id) AS sale_count , sum(oi.quantity) AS total_quantity
+from client_order_item AS oi
+inner join client_products AS p ON  oi.product_id = p.id
+group by p.id, p.product_name
+order by sale_count DESC
+limit 5;
 
--- select * FROM top_5_product;
+select * FROM top_5_product;
 
 -- Tạo view hiển thị số lượng đơn hàng theo trạng thái thanh toán
 
--- CREATE VIEW vw_payment_by_status AS 
+-- CREATE VIEW vw_payment_by_status AS
 -- SELECT ps.description, count(od.id), SUM(od.total)
 -- FROM client_order_details AS od
 -- inner join master_payment_status AS ps ON od.status = ps.code
@@ -41,12 +41,12 @@
 -- DETERMINISTIC -- hàm trả lại đúng giá trị nếu được cung cấp các đối số đúng
 -- BEGIN
 -- 	DECLARE totalRevenue DECIMAL(12,2);
--- 	
+--
 --     SELECT SUM(od.total) INTO totalRevenue
 --     FROM client_order_details AS od
 --     WHERE od.status IN ('PA', 'RE')
 --     AND DATE(od.created_at) BETWEEN startDate AND endDate;
---     
+--
 --     RETURN IFNULL(totalRevenue, 0);
 -- END //
 -- DELIMITER ;

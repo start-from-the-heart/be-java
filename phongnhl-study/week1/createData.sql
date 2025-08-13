@@ -6,7 +6,7 @@ INSERT INTO master_role (role_type, description, created_at, created_by) VALUES
 ('MOD', 'Người kiểm duyệt', NOW(), 'system');
 
 -- Thêm dữ liệu vào bảng master_sequence
-INSERT INTO master_sequence (name, current_value) VALUES ('user_account_id', 0);
+INSERT INTO master_sequence (name, current_value) VALUES ('user_account_id', 0) ON DUPLICATE KEY UPDATE name = name;;
 
 -- Thêm dữ liệu vào bảng client_user_account (10 bản ghi)
 INSERT INTO client_user_account (username, password, email, role_id, status, created_at, created_by) VALUES
@@ -336,15 +336,15 @@ INSERT INTO client_cart_item (cart_id, product_id, product_sku_id, quantity, cre
 (1, 'PROD006', 11, 2, NOW(), 'system'),
 (2, 'PROD002', 4, 1, NOW(), 'system'),
 (3, 'PROD005', 9, 1, NOW(), 'system'),
-(4, 'PROD012', 26, 1, NOW(), 'system'),
-(4, 'PROD013', 27, 1, NOW(), 'system'),
-(5, 'PROD019', 32, 1, NOW(), 'system'),
+(4, 'PROD012', 23, 1, NOW(), 'system'),  -- PROD012 → SKU id 23
+(4, 'PROD013', 24, 1, NOW(), 'system'),  -- PROD013 → SKU id 24
+(5, 'PROD019', 30, 1, NOW(), 'system'),  -- PROD019 → SKU id 30
 (6, 'PROD022', 34, 2, NOW(), 'system'),
 (7, 'PROD007', 14, 1, NOW(), 'system'),
 (8, 'PROD009', 17, 1, NOW(), 'system'),
-(9, 'PROD015', 28, 1, NOW(), 'system'),
-(10, 'PROD020', 33, 1, NOW(), 'system'),
-(10, 'PROD021', 34, 1, NOW(), 'system');
+(9, 'PROD015', 28, 1, NOW(), 'system'), -- PROD015 → SKU id 26
+(10, 'PROD020', 33, 1, NOW(), 'system'), -- PROD020 → SKU id 31
+(10, 'PROD021', 34, 1, NOW(), 'system'); -- PROD021 → SKU id 32
 
 -- Cập nhật tổng tiền cho giỏ hàng
 UPDATE client_cart c
@@ -388,10 +388,10 @@ INSERT INTO client_order_item (order_id, product_id, product_sku_id, quantity, c
 -- Đơn hàng 3
 (3, 'PROD005', 9, 1, NOW(), 'system'),
 -- Đơn hàng 4
-(4, 'PROD012', 26, 1, NOW(), 'system'),
-(4, 'PROD013', 27, 1, NOW(), 'system'),
+(4, 'PROD012', 23, 1, NOW(), 'system'),
+(4, 'PROD013', 24, 1, NOW(), 'system'),
 -- Đơn hàng 5
-(5, 'PROD019', 32, 1, NOW(), 'system'),
+(5, 'PROD019', 30, 1, NOW(), 'system'),
 -- Đơn hàng 6
 (6, 'PROD022', 34, 2, NOW(), 'system'),
 -- Đơn hàng 7
@@ -401,8 +401,8 @@ INSERT INTO client_order_item (order_id, product_id, product_sku_id, quantity, c
 -- Đơn hàng 9
 (9, 'PROD015', 28, 1, NOW(), 'system'),
 -- Đơn hàng 10
-(10, 'PROD020', 33, 1, NOW(), 'system'),
-(10, 'PROD021', 34, 1, NOW(), 'system'),
+(10, 'PROD020', 31, 1, NOW(), 'system'),
+(10, 'PROD021', 32, 1, NOW(), 'system'),
 -- Đơn hàng 11
 (11, 'PROD006', 11, 1, DATE_SUB(NOW(), INTERVAL 1 MONTH), 'system'),
 -- Đơn hàng 12

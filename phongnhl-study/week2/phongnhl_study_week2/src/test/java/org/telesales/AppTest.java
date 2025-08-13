@@ -33,6 +33,7 @@ public class AppTest
      */
     public void testApp()
     {
-        assertTrue( true );
+          // TODO: Add meaningful test logic
+          fail("Test not implemented");
     }
 }

@@ -1,6 +1,5 @@
-CREATE DATABASE devPhongNHL;
-
-USE devPhongNHL;
+CREATE DATABASE devphongnhl;
+USE devphongnhl;
 
 -- tao role
 CREATE TABLE master_role(
@@ -23,7 +22,7 @@ Create table master_sequence(
 CREATE TABLE client_user_account(
 	id varchar(10) primary key,
     username varchar(255),
-    password varchar(255),
+    password char(60) not null,
     email varchar(255) unique,
     role_id int,
     status varchar(2),
@@ -125,7 +124,7 @@ CREATE TABLE client_products_skus (
     id INT auto_increment PRIMARY KEY,
     product_id VARCHAR(10),
     sku VARCHAR(30),
-    price BIGINT,
+    price DECIMAL(18,2),
     quantity INT,
     delete_flg boolean,
     created_at TIMESTAMP,
@@ -269,21 +268,19 @@ CREATE TRIGGER before_insert_client_user_account
 BEFORE INSERT ON client_user_account
 FOR EACH ROW
 BEGIN
-    DECLARE next_number INT;
-    DECLARE next_code VARCHAR(10);
+    SELECT current_value
+    INTO next_number
+    FROM master_sequence
+    WHERE name = 'user_account_id'
+    FOR UPDATE;
 
-    -- Cập nhật giá trị mới cho sequence
+    SET next_number = next_number + 1;
+
     UPDATE master_sequence
-    SET current_value = LAST_INSERT_ID(current_value + 1)
+    SET current_value = next_number
     WHERE name = 'user_account_id';
 
-    -- Lấy giá trị vừa cập nhật
-    SET next_number = LAST_INSERT_ID();
-
-    -- Tạo mã account_id dạng 'CU00000001'
-    SET next_code = CONCAT('CU', LPAD(next_number, 8, '0'));
-
-    SET NEW.id = next_code;
+    SET NEW.id = CONCAT('CU', LPAD(next_number, 8, '0'));
 END$$
 
 DELIMITER ;
