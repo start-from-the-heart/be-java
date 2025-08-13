@@ -81,7 +81,7 @@ CREATE TABLE client_categories(
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by varchar(10),
+    updated_by varchar(10)
 );
 
 CREATE TABLE client_sub_categories(
@@ -143,7 +143,7 @@ CREATE TABLE client_products_attributes (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by varchar(10),
+    updated_by varchar(10)
 );
 
 CREATE TABLE client_sku_attributes (
@@ -155,7 +155,7 @@ CREATE TABLE client_sku_attributes (
 );
 
 CREATE TABLE client_wishlist(
-	id int4 auto_increment primary key,
+	id int auto_increment primary key,
     product_id varchar(10),
     user_account_id varchar(10),
     delete_flg boolean NOT NULL DEFAULT 0,
@@ -168,9 +168,9 @@ CREATE TABLE client_wishlist(
 );
 
 CREATE TABLE client_cart(
-	id int4 auto_increment primary key,
+	id int auto_increment primary key,
     user_account_id varchar(10),
-    total int,
+    total DECIMAL(18,2),
     delete_flg boolean NOT NULL DEFAULT 0,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(10),
@@ -180,10 +180,10 @@ CREATE TABLE client_cart(
 );
 
 CREATE TABLE client_cart_item(
-	id int4 auto_increment primary key,
-    cart_id int4,
+	id int auto_increment primary key,
+    cart_id int,
     product_id varchar(10), 
-    product_sku_id int4,
+    product_sku_id int,
     quantity int,
     delete_flg boolean NOT NULL DEFAULT 0,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -196,9 +196,9 @@ CREATE TABLE client_cart_item(
 );
 
 CREATE TABLE client_order_details(
-	id int4 auto_increment primary key,
+	id int auto_increment primary key,
     user_account_id varchar(10),
-    total int,
+    total DECIMAL(18,2),
     status varchar(2),
     delete_flg boolean NOT NULL DEFAULT 0,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -209,10 +209,10 @@ CREATE TABLE client_order_details(
 );
 
 CREATE TABLE client_order_item(
-	id int4 auto_increment primary key,
-    order_id int4,
+	id int auto_increment primary key,
+    order_id int,
     product_id varchar(10),
-    product_sku_id int4,
+    product_sku_id int,
     quantity int,
     delete_flg boolean NOT NULL DEFAULT 0,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -235,9 +235,9 @@ CREATE TABLE master_payment_status(
 );
 
 CREATE TABLE client_payment_details(
-	id int4 auto_increment primary key,
-    order_id int4 unique,
-    amount bigint,
+	id int auto_increment primary key,
+    order_id int unique,
+    amount DECIMAL(18,2),
     provider varchar(100),
     status varchar(2),
     delete_flg boolean NOT NULL DEFAULT 0,

@@ -1,6 +1,7 @@
 -- Viết stored procedure để phân quyền cho user
 
 -- DELIMITER //
+-- DROP FUNCTION IF EXISTS sp_assign_role_user;
 -- CREATE PROCEDURE sp_assign_role_user(
 -- 	IN p_user_id VARCHAR(10),
 --     IN p_role_id INT,
@@ -27,6 +28,7 @@
 -- Viết stored procedure kiểm tra quyền của user
 
 DELIMITER //
+DROP FUNCTION IF EXISTS sp_check_user_permission;
 CREATE PROCEDURE sp_check_user_permission(
     IN p_user_id VARCHAR(10),
     IN p_required_role VARCHAR(10),
@@ -45,6 +47,7 @@ END //
 DELIMITER ;
 
 -- Viết trigger tự động ghi log khi có thay đổi quyền user
+-- DROP FUNCTION IF EXISTS update_role_history;
 -- CREATE TABLE update_role_history (
 --     id INT AUTO_INCREMENT PRIMARY KEY,
 --     user_id VARCHAR(10),

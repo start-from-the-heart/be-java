@@ -1,6 +1,7 @@
 package org.telesales.config;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -16,18 +17,18 @@ public class JDBCConfig {
       properties.load(inputStream);
       DriverManagerDataSource ds = new DriverManagerDataSource();
         String driverClassName = properties.getProperty("db.driver-class-name");
-        String url             = properties.getProperty("db.url");
-        String username        = properties.getProperty("db.username");
-        String password        = properties.getProperty("db.password");
+        String url = properties.getProperty("db.url");
+        String username = properties.getProperty("db.username");
+        String password = properties.getProperty("db.password");
 
         if (driverClassName == null || url == null || username == null || password == null) {
           throw new RuntimeException(
               "Missing required database properties in application.properties");
         }
       ds.setDriverClassName(driverClassName);
-      ds.setUrl(properties.getProperty(url));
-      ds.setUsername(properties.getProperty(username));
-      ds.setPassword(properties.getProperty(password));
+      ds.setUrl(url);
+      ds.setUsername(username);
+      ds.setPassword(password);
       return ds;
     } catch (IOException e) {
       throw new RuntimeException(e);

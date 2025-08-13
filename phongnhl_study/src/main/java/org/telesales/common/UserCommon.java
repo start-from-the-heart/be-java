@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public abstract class UserCommon {
 
-  private boolean deleted = false;
+  private boolean deleteFlg = false;
 
   private String createdBy;
 
@@ -15,7 +15,6 @@ public abstract class UserCommon {
 
   private LocalDateTime updatedAt;
 
-
   public boolean isDeleteFlg() {
     return deleteFlg;
   }
@@ -24,35 +23,35 @@ public abstract class UserCommon {
     this.deleteFlg = deleteFlg;
   }
 
-  public String getCreateBy() {
-    return createBy;
+  public String getCreatedBy() {
+    return createdBy;
   }
 
-  public void setCreateBy(String createBy) {
-    this.createBy = createBy;
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
   }
 
-  public LocalDateTime getCreateAt() {
-    return createAt;
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
   }
 
-  public void setCreateAt(LocalDateTime createAt) {
-    this.createAt = createAt;
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
   }
 
-  public String getUpdateBy() {
-    return updateBy;
+  public String getUpdatedBy() {
+    return updatedBy;
   }
 
-  public void setUpdateBy(String updateBy) {
-    this.updateBy = updateBy;
+  public void setUpdatedBy(String updatedBy) {
+    this.updatedBy = updatedBy;
   }
 
-  public LocalDateTime getUpdateAt() {
-    return updateAt;
+  public LocalDateTime getUpdatedAt() {
+    return updatedAt;
   }
 
-  public void setUpdateAt(LocalDateTime updateAt) {
-    this.updateAt = updateAt;
+  public void setUpdatedAt(LocalDateTime updatedAt) {
+    this.updatedAt = updatedAt;
   }
 }
