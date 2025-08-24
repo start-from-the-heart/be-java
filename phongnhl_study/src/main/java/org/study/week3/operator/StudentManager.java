@@ -121,24 +121,33 @@ public class StudentManager {
 //		}
 		// có 3 kiểu xóa an toàn
 		// dùng iterator trực tiếp
-		Iterator<Student> iterator = students.iterator();
-		while (iterator.hasNext()) {
-			Student student = iterator.next();
-			if (student.getName().equalsIgnoreCase(name)) {
-				iterator.remove();
-				return;
-			}
-		}
+//		Iterator<Student> iterator = students.iterator();
+//		while (iterator.hasNext()) {
+//			Student student = iterator.next();
+//			if (student.getName().equalsIgnoreCase(name)) {
+//				iterator.remove();
+//				return;
+//			}
+//		}
 		// dùng vòng for với chỉ số index
-		for(int i = 0; i < students.size(); i++) {
-			if(students.get(i).getName().equalsIgnoreCase(name)) {
-				students.remove(i);
-				i--;
+//		for(int i = 0; i < students.size(); i++) {
+//			if(students.get(i).getName().equalsIgnoreCase(name)) {
+//				students.remove(i);
+//				i--;
+//				return;
+//			}
+//		}
+
+        //dùng kiểu iterator cho vòng for
+        for (Iterator<Student> it = students.iterator(); it.hasNext(); ) {
+            if (it.next().getName().equalsIgnoreCase(name)) {
+                it.remove();
 				return;
 			}
-		}
+        }
 
-		//dùng removeIf
-		students.removeIf(student -> student.getName().equalsIgnoreCase(name));
+
+        //dùng removeIf
+//		students.removeIf(student -> student.getName().equalsIgnoreCase(name));
 	}
 }
